@@ -4,10 +4,7 @@ import copy
 import math
 #from appscript import app
 
-# Environment:
-# OS    : Mac OS EL Capitan
-# python: 3.5
-# opencv: 2.4.13
+
 
 # parameters
 cap_region_x_begin=0.5  # start point/total width
@@ -38,7 +35,7 @@ def removeBG(frame):
 
 def calculateFingers(res,drawing):  # -> finished bool, cnt: finger count
     #  convexity defect
-    hull = cv2.convexHull(res, returnPoints=False)
+    hull = cv2.convexHull(res, returnPoints=False) 
     if len(hull) > 3:
         defects = cv2.convexityDefects(res, hull)
         if type(defects) != type(None):  # avoid crashing.   (BUG not found)
@@ -93,7 +90,7 @@ while camera.isOpened():
 
         # get the coutours
         thresh1 = copy.deepcopy(thresh)
-        _,contours, hierarchy = cv2.findContours(thresh1, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        contours, hierarchy = cv2.findContours(thresh1, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         length = len(contours)
         maxArea = -1
         if length > 0:
