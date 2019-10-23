@@ -18,6 +18,8 @@ learningRate = 0
 isBgCaptured = 0   # bool, whether the background captured
 triggerSwitch = False  # if true, keyborad simulator works
 
+dataset_size = 0
+
 def printThreshold(thr):
     print("! Changed threshold to "+str(thr))
 
@@ -56,6 +58,10 @@ def calculateFingers(res,drawing):  # -> finished bool, cnt: finger count
             return True, cnt
     return False, 0
 
+def storedata(drawing, cnt, size):
+    
+    cv2.imwrite('./database/'+ str(size) + '_' + str(cnt+1) + '.png' ,drawing)
+    
 
 # Camera
 camera = cv2.VideoCapture(0)
@@ -109,8 +115,9 @@ while camera.isOpened():
 
             isFinishCal,cnt = calculateFingers(res,drawing)
             if triggerSwitch is True:
-                if isFinishCal is True and cnt <= 2:
-                    print (cnt)
+                if isFinishCal is True:
+                    storedata(drawing, cnt, dataset_size)
+                    dataset_size = dataset_size + 1
                     #app('System Events').keystroke(' ')  # simulate pressing blank space
                     
 
